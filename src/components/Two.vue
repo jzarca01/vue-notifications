@@ -22,6 +22,11 @@
         title: 'Success!',
         message: 'Component TWO success'
       }
+    },
+    methods: {
+      warnMe () {
+        this.warnMsg()
+      }
     }
   }
 </script>

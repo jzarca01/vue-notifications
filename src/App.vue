@@ -30,9 +30,9 @@
     </section>
 
     <section>
-      <one></one>
-      <one></one>
-      <two></two>
+      <one/>
+      <two/>
+      <two/>
     </section>
   </div>
 </template>

@@ -12,10 +12,14 @@
       return {}
     },
     notifications: {
+      warnMsg: {
+        type: 'warn',
+        message: 'Component One warning'
+      },
       successMsg: {
         type: 'success',
         title: 'Success!',
-        message: 'Component 1 success'
+        message: 'Component One success'
       }
     }
   }

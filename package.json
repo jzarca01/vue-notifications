@@ -15,7 +15,7 @@
   "dependencies": {
     "mini-toastr": "^0.6.5",
     "vue": "^2.1.0",
-    "vue-notifications": "^0.7.6"
+    "vue-notifications": "^0.8.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -75,7 +75,7 @@
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.2",
-    "webpack-merge": "^0.14.1"
+    "webpack-merge": "^4.1.0"
   },
   "engines": {
     "node": ">= 4.0.0",
