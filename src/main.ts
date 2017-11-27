@@ -29,8 +29,8 @@ function showDefaultMessage ({type, message, title}: Message): void {
   else console.log(msg)
 }
 
-function getValues (vueApp: VueApp, config: Config): Object {
-  const result = {}
+function getValues (vueApp: VueApp, config: Config): Message {
+  const result = new Message()
 
   Object.keys(config).forEach(field => {
     if (field === 'cb') {
@@ -44,47 +44,51 @@ function getValues (vueApp: VueApp, config: Config): Object {
 }
 
 function showMessage (config: Config, vueApp: VueApp): any {
-  const valuesObj = getValues(vueApp, config)
+  const valuesObj: Message = getValues(vueApp, config)
   const isMethodOverridden = VueNotifications.pluginOptions[valuesObj.type]
-  const method = isMethodOverridden ? VueNotifications.pluginOptions[valuesObj.type] : showDefaultMessage
-  method(valuesObj, vueApp)
+
+  if (isMethodOverridden) {
+    VueNotifications.pluginOptions[valuesObj.type](valuesObj, vueApp)
+  } else {
+    showDefaultMessage(valuesObj)
+  }
 
   if (config.cb) return config.cb()
 }
 
 // TODO (S.Panfilov) fix typing
-function addMethods (targetObj, typesObj): void {
+function addMethods (targetObj, typesObj, vueApp: VueApp): void {
   Object.keys(typesObj).forEach(v => {
     targetObj[typesObj[v]] = function (config) {
       config.type = typesObj[v]
       // TODO (S.Panfilov) fix 'vueApp' in param
-      return showMessage(config)
+      return showMessage(config, vueApp)
     }
   })
 }
 
-function setMethod (vueApp: VueApp, name: string, vueAppOptions: VueAppOptions, pluginOptions: PluginOptions): void {
+function setMethod (vueApp: VueApp, name: string, vueAppOptions: VueAppOptions): void {
   if (!vueAppOptions.methods) vueAppOptions.methods = {}
   if (!vueAppOptions.methods[name]) {
-    vueAppOptions.methods[name] = makeMethod(vueApp, name, vueAppOptions, pluginOptions)
+    vueAppOptions.methods[name] = makeMethod(vueApp, name, vueAppOptions)
   }
 }
 
-function makeMethod (vueApp: VueApp, configName: string, options: VueAppOptions, pluginOptions: PluginOptions): Function {
+function makeMethod (vueApp: VueApp, configName: string, options: VueAppOptions): Function {
   return function (config) {
     const newConfig = Object.assign({},
       VueNotifications.config,
       options[VueNotifications.propertyName][configName],
       config)
 
-    return showMessage(newConfig, pluginOptions, vueApp)
+    return showMessage(newConfig, vueApp)
   }
 }
 
 // TODO (S.Panfilov) typing (notifications?)
-function initVueNotificationPlugin (vueApp: VueApp, notifications, pluginOptions: PluginOptions): void {
+function initVueNotificationPlugin (vueApp: VueApp, notifications): void {
   if (!notifications) return
-  Object.keys(notifications).forEach(name => setMethod(vueApp, name, vueApp.$options, pluginOptions))
+  Object.keys(notifications).forEach(name => setMethod(vueApp, name, vueApp.$options))
   vueApp.$emit(`${PACKAGE_NAME}-initiated`)
 }
 
@@ -102,14 +106,14 @@ function unlinkVueNotificationPlugin (vueApp: VueApp, notifications): void {
   vueApp.$emit(`${PACKAGE_NAME}-unlinked`)
 }
 
-function makeMixin (Vue: VueApp, pluginOptions: PluginOptions): Mixin {
+function makeMixin (Vue: VueApp): Mixin {
   const init: Hooks = getVersion(Vue) === EVANGELION ? INIT_HOOK : BEFORE_CREATE_HOOK
 
   return {
     [init]: function () {
       //this === vueApp
       const notificationsField = this.$options[VueNotifications.propertyName]
-      initVueNotificationPlugin(this, notificationsField, pluginOptions)
+      initVueNotificationPlugin(this, notificationsField)
     },
     [BEFORE_DESTROY_HOOK]: function () {
       //this === vueApp
@@ -130,11 +134,11 @@ const VueNotifications: VueNotificationsPlugin = {
   installed: false,
   install (Vue, pluginOptions: PluginOptions = new PluginOptions()) {
     if (this.installed) throw console.error(ALREADY_INSTALLED_MSG)
-    const mixin = makeMixin(Vue, pluginOptions)
+    const mixin = makeMixin(Vue)
     Vue.mixin(mixin)
 
     this.setPluginOptions(pluginOptions)
-    addMethods(this, this.types)
+    addMethods(this, this.types, Vue)
 
     this.installed = true
   },
