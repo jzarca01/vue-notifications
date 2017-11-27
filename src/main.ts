@@ -1,6 +1,6 @@
-const PLUGIN_NAME = 'VueNotifications'
-const PACKAGE_NAME = 'vue-notifications'
-const PROPERTY_NAME = 'notifications'
+const PLUGIN_NAME: string = 'VueNotifications'
+const PACKAGE_NAME: string = 'vue-notifications'
+const PROPERTY_NAME: string = 'notifications'
 
 const TYPES = {
   error: 'error',
@@ -9,19 +9,19 @@ const TYPES = {
   success: 'success'
 }
 
-const EVANGELION = 1
+const EVANGELION: number = 1
 
 const MESSAGES = {
   alreadyInstalled: `${PLUGIN_NAME}: plugin already installed`,
   methodNameConflict: `${PLUGIN_NAME}: names conflict - `
 }
 
-function getVersion (Vue) {
+function getVersion (Vue): number {
   const version = Vue.version.match(/(\d+)/g)
   return +version[0]
 }
 
-function showDefaultMessage ({type, message, title}) {
+function showDefaultMessage ({type, message, title}): void {
   let msg = `Title: ${title}, Message: ${message}, Type: ${type}`
   if (type === TYPES.error) console.error(msg)
   else if (type === TYPES.warn) console.warn(msg)
@@ -42,7 +42,7 @@ function getValues (vueApp, config) {
   return result
 }
 
-function showMessage (config, vueApp) {
+function showMessage (config, vueApp): any {
   const valuesObj = getValues(vueApp, config)
   const isMethodOverridden = VueNotifications.pluginOptions[valuesObj.type]
   const method = isMethodOverridden ? VueNotifications.pluginOptions[valuesObj.type] : showDefaultMessage
