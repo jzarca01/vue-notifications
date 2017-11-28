@@ -39,7 +39,7 @@ export class VueNotificationsPlugin implements IVueNotificationsPlugin {
   public install: Function
   public setPluginOptions: Function
 
-  // _private?: any
+  _private?: any
 
   constructor (params: VueNotificationsParams) {
     this.types = params.types

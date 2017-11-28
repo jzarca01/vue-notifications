@@ -11,28 +11,28 @@ import { ALREADY_INSTALLED_MSG } from "./messages"
 import { Config } from "./models/config"
 import { Type } from "./models/type"
 import { PluginOptions } from "./models/pluginOptions"
-import { VueNotificationsPlugin } from "./models/VueNotifications"
+import { VueNotificationsPlugin } from "./models/vueNotifications"
 import { Message } from "./models/message"
-import { VueApp } from "./models/VueApp"
-import { Hooks } from "./models/Hooks"
-import { Mixin } from "./models/Mixin"
+import { VueApp } from "./models/vueApp"
+import { Hooks } from "./models/hooks"
+import { Mixin } from "./models/mixin"
 
 function getVersion (Vue: VueApp): number {
-  const version = Vue.version.match(/(\d+)/g)
+  const version: RegExpMatchArray = Vue.version.match(/(\d+)/g)
   return +version[0]
 }
 
 function showDefaultMessage ({type, message, title}: Message): void {
-  let msg = `Title: ${title}, Message: ${message}, Type: ${type}`
+  let msg: string = `Title: ${title}, Message: ${message}, Type: ${type}`
   if (type === ERROR) console.error(msg)
   else if (type === WARN) console.warn(msg)
   else console.log(msg)
 }
 
 function getValues (vueApp: VueApp, config: Config): Message {
-  const result = new Message()
+  const result: Message = new Message()
 
-  Object.keys(config).forEach(field => {
+  Object.keys(config).forEach((field: string) => {
     if (field === 'cb') {
       result[field] = config[field].bind(vueApp)
     } else {
@@ -45,7 +45,7 @@ function getValues (vueApp: VueApp, config: Config): Message {
 
 function showMessage (config: Config, vueApp: VueApp): any {
   const valuesObj: Message = getValues(vueApp, config)
-  const isMethodOverridden = VueNotifications.pluginOptions[valuesObj.type]
+  const isMethodOverridden: boolean = VueNotifications.pluginOptions[valuesObj.type]
 
   if (isMethodOverridden) {
     VueNotifications.pluginOptions[valuesObj.type](valuesObj, vueApp)
@@ -76,7 +76,7 @@ function setMethod (vueApp: VueApp, name: string, vueAppOptions: VueAppOptions):
 
 function makeMethod (vueApp: VueApp, configName: string, options: VueAppOptions): Function {
   return function (config) {
-    const newConfig = Object.assign({},
+    const newConfig: Config = Object.assign({},
       VueNotifications.config,
       options[VueNotifications.propertyName][configName],
       config)
@@ -95,7 +95,8 @@ function initVueNotificationPlugin (vueApp: VueApp, notifications): void {
 // TODO (S.Panfilov) typing (notifications?)
 function unlinkVueNotificationPlugin (vueApp: VueApp, notifications): void {
   if (!notifications) return
-  const attachedMethods = vueApp.$options.methods
+  const attachedMethods: Object = vueApp.$options.methods
+
   Object.keys(notifications).forEach(name => {
     if (attachedMethods[name]) {
       attachedMethods[name] = undefined
@@ -155,23 +156,20 @@ if (typeof window !== 'undefined' && (<any>window).Vue) {
 }
 
 /*START.TESTS_ONLY*/
-// VueNotifications._private = {}
-// VueNotifications._private.getVersion = getVersion
-// VueNotifications._private.showDefaultMessage = showDefaultMessage
-// VueNotifications._private.getValues = getValues
-// VueNotifications._private.showMessage = showMessage
-// VueNotifications._private.addMethods = addMethods
-// VueNotifications._private.setMethod = setMethod
-// VueNotifications._private.makeMethod = makeMethod
-// VueNotifications._private.initVueNotificationPlugin = initVueNotificationPlugin
-// VueNotifications._private.unlinkVueNotificationPlugin = unlinkVueNotificationPlugin
-// VueNotifications._private.makeMixin = makeMixin
-// VueNotifications._private.TYPES = TYPES
-// VueNotifications._private.PLUGIN_NAME = PLUGIN_NAME
-// VueNotifications._private.PACKAGE_NAME = PACKAGE_NAME
-// VueNotifications._private.PROPERTY_NAME = PROPERTY_NAME
-// VueNotifications._private.EVANGELION = EVANGELION
-// VueNotifications._private.MESSAGES = MESSAGES
+VueNotifications._private = {}
+VueNotifications._private.getVersion = getVersion
+VueNotifications._private.showDefaultMessage = showDefaultMessage
+VueNotifications._private.getValues = getValues
+VueNotifications._private.showMessage = showMessage
+VueNotifications._private.addMethods = addMethods
+VueNotifications._private.setMethod = setMethod
+VueNotifications._private.makeMethod = makeMethod
+VueNotifications._private.initVueNotificationPlugin = initVueNotificationPlugin
+VueNotifications._private.unlinkVueNotificationPlugin = unlinkVueNotificationPlugin
+VueNotifications._private.makeMixin = makeMixin
+VueNotifications._private.PACKAGE_NAME = PACKAGE_NAME
+VueNotifications._private.PROPERTY_NAME = PROPERTY_NAME
+VueNotifications._private.EVANGELION = EVANGELION
 
 export default VueNotifications
 /*END.TESTS_ONLY*/

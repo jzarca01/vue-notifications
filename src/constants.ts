@@ -1,4 +1,4 @@
-import { Hooks } from "./models/Hooks"
+import { Hooks } from "./models/hooks"
 
 export const PLUGIN_NAME: string = 'VueNotifications'
 export const PACKAGE_NAME: string = 'vue-notifications'
