@@ -1,6 +1,6 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import pkg from './package.json';
+import resolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
+import pkg from './package.json'
 
 export default [
   // browser-friendly UMD build
@@ -10,7 +10,7 @@ export default [
       file: pkg.browser,
       format: 'umd'
     },
-    name: 'howLongUntilLunch',
+    name: 'vue-notifications',
     plugins: [
       resolve(), // so Rollup can find `ms`
       commonjs() // so Rollup can convert `ms` to an ES module
@@ -27,8 +27,8 @@ export default [
     input: 'src/main.js',
     external: ['ms'],
     output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' }
+      {file: pkg.main, format: 'cjs'},
+      {file: pkg.module, format: 'es'}
     ]
   }
 ];

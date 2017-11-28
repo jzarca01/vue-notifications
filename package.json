@@ -2,17 +2,18 @@
   "name": "vue-notifications",
   "version": "0.9.0",
   "description": "Vuejs notifications",
-  "main": "dist/vue-notifications.es5.js",
+  "main": "dist/vue-notifications.js",
   "scripts": {
-    "start": "cross-env BABEL_ENV=dev && gulp",
-    "build": "cross-env BABEL_ENV=production && gulp make",
+    "dev": "cross-env BABEL_ENV=dev && rollup -c -w",
+    "build": "cross-env BABEL_ENV=production && rollup -c",
     "docs": "rimraf ./docs/html/** && gitbook build ./docs/md/ ./docs/html",
     "docs:to:gh": "rimraf ../dev-server/docs/** && cpx './docs/**' ../dev-server/docs",
     "update": "ncu -a && yarn upgrade",
     "upgrade": "yarn upgrade",
     "test": "cross-env BABEL_ENV=test && mocha --compilers js:babel-core/register ./test/**/*.spec.js",
+    "pretest": "npm run build",
     "lint": "./node_modules/eslint/bin/eslint.js ./src",
-    "sizes": "gulp sizes"
+    "sizes": "du -sch ./dist/*"
   },
   "repository": {
     "type": "git",
@@ -63,17 +64,11 @@
     "eslint-plugin-promise": "3.5.0",
     "eslint-plugin-standard": "3.0.1",
     "mocha": "3.5.3",
-    "require-dir": "0.3.2",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.52.0",
-    "run-sequence": "2.2.0",
+    "rimraf": "2.6.2",
+    "rollup": "0.52.0",
+    "rollup-plugin-commonjs": "8.2.6",
     "sinon": "3.3.0",
-    "sinon-chai": "2.13.0",
-    "source": "0.0.3",
-    "through2": "2.0.3",
-    "to-case": "2.0.0",
-    "vinyl-buffer": "1.0.0",
-    "vinyl-source-stream": "1.1.0"
+    "sinon-chai": "2.13.0"
   },
   "dependencies": {}
 }
