@@ -20,3 +20,4 @@ yarn.lock
 package-lock.json
 vue-not
 examples
+./test/manual
