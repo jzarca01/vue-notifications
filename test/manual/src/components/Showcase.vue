@@ -20,22 +20,6 @@
             </li>
           </ul>
 
-          <ul class="showcase__actions-item showcase-lib">
-            <li v-for="(value, key) in libs"
-                class="showcase-lib__items"
-                @change="setCurrentLib(key)">
-              <label>
-                <input type="radio" :checked="currentLib === value" :value="key" name="lib" />
-                <span v-text="value"></span>
-                <span class="showcase-lib__third-party-home-ling">
-                  <a v-bind:href="ExampleSetup[key].home" v-bind:title="'go to ' + value + ' home'" target="_blank">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                  </a>
-                </span>
-              </label>
-
-            </li>
-          </ul>
         </section>
 
       </section>
@@ -49,102 +33,30 @@
   import Vue from 'vue'
   // import VueNotifications from 'vue-notifications'
   import VueNotifications from 'vue-notifications/dist/vue-notifications.es5.js'
-  // import HighlightJS from 'highlight.js/lib/highlight'
-  // import JsLang from 'highlight.js/lib/languages/javascript'
-  // import 'highlight.js/styles/atom-one-light.css'
-  import ExampleSetup from '../misc/example_setup'
-  import ExampleConfig from '../misc/example_config'
 
-  //Third-party UI libs
-  import VueEasyToast from 'vue-easy-toast' // https://github.com/noru/vue-easy-toast
-  import miniToastr from 'mini-toastr' // https://github.com/se-panfilov/mini-toastr
-  import VueToasted from 'vue-toasted' // https://github.com/shakee93/vue-toasted
-
-  //toastr
-  import 'jquery' // required by 'toastr'
-  import toastr from 'toastr' // https://github.com/CodeSeven/toastr
-  import 'toastr/build/toastr.min.css'
-  //end toastr
-
-  //iziToast
-  import iziToast from 'izitoast' // https://github.com/dolce/iziToast
-  import 'izitoast/dist/css/iziToast.min.css'
-  //end iziToast
-
-  //noty
-  import Noty from 'noty' // https://github.com/needim/noty
-  import 'noty/lib/noty.css'
-  //end noty
-
-  //sweetalert
-  import swal from 'sweetalert' // https://github.com/t4t5/sweetalert
-
-  // HighlightJS.registerLanguage('javascript', JsLang)
-  // HighlightJS.initHighlightingOnLoad()
+  import miniToastr from 'mini-toastr'
 
   Vue.config.productionTip = false
 
   miniToastr.init()
 
-  const UI_LIBS = {
-    miniToastr: 'miniToastr',
-    VueToasted: 'VueToasted',
-    VueEasyToast: 'VueEasyToast',
-    toastr: 'toastr',
-    iziToast: 'iziToast',
-    Noty: 'Noty',
-    swal: 'swal'
+  function toast ({title, message, type, timeout, cb}) {
+    return miniToastr[type](message, title, timeout, cb)
   }
 
-  const TOASTS = {
-    [UI_LIBS.miniToastr] ({title, message, type, timeout, cb}) {
-      return miniToastr[type](message, title, timeout, cb)
-    },
-    [UI_LIBS.VueToasted] ({title, message, type, timeout, cb}) {
-      if (type === VueNotifications.types.warn) type = 'show'
-      return Vue.toasted[type](message, {duration: timeout})
-    },
-    [UI_LIBS.VueEasyToast] ({title, message, type, timeout, cb}) {
-      let className = 'et-info'
-      if (type === VueNotifications.types.warn) className = 'et-warn'
-      else if (type === VueNotifications.types.error) className = 'et-alert'
-
-      return Vue.toast(message, {duration: timeout, className})
-    },
-    [UI_LIBS.toastr] ({title, message, type, timeout, cb}) {
-      // this shit requires jquery, lol
-      if (type === VueNotifications.types.warn) type = 'warning'
-      return toastr[type](message, title, {timeOut: timeout})
-    },
-    [UI_LIBS.iziToast] ({title, message, type, timeout, cb}) {
-      if (type === VueNotifications.types.warn) type = 'warning'
-      return iziToast[type]({title, message, timeout})
-    },
-    [UI_LIBS.Noty] ({title, message, type, timeout, cb}) {
-      if (type === VueNotifications.types.warn) type = 'warning'
-
-      return new Noty({text: message, timeout, type}).show()
-    },
-    [UI_LIBS.swal] ({title, message, type, timeout, cb}) {
-      if (type === VueNotifications.types.warn) type = 'warning'
-      return swal(title, message, type)
-    }
+  const options = {
+    success: toast,
+    error: toast,
+    info: toast,
+    warn: toast
   }
 
-  Vue.use(VueEasyToast)
-  Vue.use(VueToasted)
-  //  Vue.use(VueNotifications, options)
+  Vue.use(VueNotifications, options)
 
   export default {
     name: 'showcase',
     data () {
-      return {
-        ExampleSetup: ExampleSetup,
-        ExampleConfig: ExampleConfig,
-        libs: UI_LIBS,
-        currentLib: UI_LIBS.miniToastr,
-        checked: ''
-      }
+      return {}
     },
     notifications: {
       showSuccessMsg: {
@@ -172,20 +84,6 @@
       setCurrentLib (libKey) {
         this.currentLib = libKey
         this.checked = libKey
-
-        const options = {
-          success: TOASTS[this.currentLib],
-          error: TOASTS[this.currentLib],
-          info: TOASTS[this.currentLib],
-          warn: TOASTS[this.currentLib]
-        }
-
-        //dirty hack for HighlightJS
-        // const codeElem = document.getElementById('toast_func_code')
-        // codeElem.innerHTML = this.ExampleSetup[this.currentLib].code
-        // HighlightJS.highlightBlock(document.getElementById('toast_func'))
-
-        VueNotifications.setPluginOptions(options)
       }
     }
   }

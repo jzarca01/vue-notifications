@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "highlight": "^0.2.4",
     "izitoast": "1.1.5",
     "jquery": "3.2.1",
     "mini-toastr": "0.6.6",
