@@ -31,8 +31,7 @@
 
 <script>
   import Vue from 'vue'
-  // import VueNotifications from 'vue-notifications'
-  import VueNotifications from 'vue-notifications/dist/vue-notifications.es5.js'
+  import VueNotifications from '../../../../dist/vue-notifications'
 
   import miniToastr from 'mini-toastr'
 
