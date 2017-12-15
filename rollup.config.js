@@ -3,8 +3,11 @@ import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import filesize from 'rollup-plugin-filesize'
-import uglify from 'rollup-plugin-uglify'
-import conditional from "rollup-plugin-conditional"
+// import uglify from 'rollup-plugin-uglify'
+// import conditional from "rollup-plugin-conditional"
+// import uglifyBundle from "./rollup-plugin-uglify-bundle"
+// import stripCode from "./rollup-plugin-strip-code"
+import stripCode from "rollup-plugin-strip-code"
 
 const externalDeps = Object.keys(Object.assign({}, pkg.dependencies, pkg.peerDependencies))
 const nodeDeps = ['path']
@@ -41,14 +44,20 @@ export default [
         exclude: 'node_modules/**'
       }),
 
-      conditional(isProduction, [
-        uglify(),
-      ]),
+      stripCode({
+        start_comment: 'START.TESTS_ONLY',
+        end_comment: 'END.TESTS_ONLY'
+      }),
 
-      conditional(!isProduction, [
-        filesize(),
-        // watch()
-      ])
+      // conditional(isProduction, [
+      // uglifyBundle(),
+      // uglify(),
+      // ]),
+
+      // conditional(!isProduction, [
+      filesize()//,
+      // watch()
+      // ])
     ]
   }
 ];
