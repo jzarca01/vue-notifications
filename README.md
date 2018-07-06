@@ -7,6 +7,7 @@
 [![NPM](https://nodei.co/npm/vue-notifications.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/vue-notifications/)
 [![JavaScript Style Guide](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)
 [![GitHub stars](https://img.shields.io/github/stars/se-panfilov/vue-notifications.svg?style=social&logo=github&label=Stars)](https://github.com/se-panfilov/vue-notifications)
+[![Package Quality](http://npm.packagequality.com/badge/vue-notifications.png)](http://packagequality.com/#?package=vue-notifications)
 
 <p align="center">
 | [SITE](https://se-panfilov.github.io/vue-notifications/) | [DOCS](https://se-panfilov.github.io/vue-notifications/docs/html/index.html) | [EXAMPLES](https://github.com/se-panfilov/vue-notifications/tree/master/examples) | [GITHUB](https://github.com/se-panfilov/vue-notifications) | [LICENSE](https://github.com/se-panfilov/vue-notifications/blob/master/LICENSE) |
@@ -106,14 +107,14 @@ Anyway
 
 * Import `vue-notifications`
 
-Here we're including `vue-notifications` and  `mini-toaster` in our project
+Here we're including `vue-notifications` and  `mini-toastr` in our project
 
 ```js
 import VueNotifications from 'vue-notifications'
 import miniToastr from 'mini-toastr'
 ```
 
-P.S. don't forget to install `mini-toaste` \(`npm i mini-toastr --save`\)
+P.S. don't forget to install `mini-toastr` \(`npm i mini-toastr --save`\)
 
 * Setup types of the messages
 
