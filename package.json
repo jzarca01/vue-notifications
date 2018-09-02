@@ -1,6 +1,6 @@
 {
   "name": "vue-notifications",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Vuejs notifications",
   "main": "dist/vue-notifications.es5.js",
   "scripts": {
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/se-panfilov/vue-notifications.git"
+    "url": "git+https://github.com/jzarca01/vue-notifications.git"
   },
   "keywords": [
     "vue",
@@ -30,13 +30,16 @@
     "messages",
     "errors"
   ],
-  "author": "Sergei Panfilov <se-panfilov@ya.ru> (https://se-panfilov.github.io)",
+  "contributors": [
+    "Sergei Panfilov <se-panfilov@ya.ru> (https://se-panfilov.github.io)",
+    "Jérémie Zarca <jeremie.zarca@gmail.com>"
+  ],
   "license": "MIT",
   "private": false,
   "bugs": {
-    "url": "https://github.com/se-panfilov/vue-notifications/issues"
+    "url": "https://github.com/jzarca01/vue-notifications/issues"
   },
-  "homepage": "https://github.com/se-panfilov/vue-notifications#readme",
+  "homepage": "https://github.com/jzarca01/vue-notifications#readme",
   "devDependencies": {
     "babel": "6.23.0",
     "babel-cli": "6.26.0",

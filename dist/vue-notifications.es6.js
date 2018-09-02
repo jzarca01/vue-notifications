@@ -6,7 +6,8 @@ const TYPES = {
   error: 'error',
   warn: 'warn',
   info: 'info',
-  success: 'success'
+  success: 'success',
+  question: 'question'
 }
 
 const EVANGELION = 1

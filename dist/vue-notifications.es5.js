@@ -19,7 +19,8 @@ var TYPES = {
   error: 'error',
   warn: 'warn',
   info: 'info',
-  success: 'success'
+  success: 'success',
+  question: 'question'
 };
 
 var EVANGELION = 1;
